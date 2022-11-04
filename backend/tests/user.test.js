@@ -47,7 +47,7 @@ describe("users", () => {
                 });
             });
 
-            it("valid credentials",async () => {
+            it("invalid email",async () => {
                 const data = {
                     email : "admn@example.com",
                     password : "1234"
