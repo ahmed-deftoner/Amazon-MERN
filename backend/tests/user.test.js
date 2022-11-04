@@ -37,7 +37,7 @@ describe("users", () => {
                     email : "admin@example.com",
                     password : "1238"
                 }
-                const msg = "Invalid email or password'" 
+                const msg = "Invalid email or password" 
                 await request(app)
                 .post("/api/users/signin")
                 .send(data)
@@ -52,7 +52,7 @@ describe("users", () => {
                     email : "admn@example.com",
                     password : "1234"
                 }
-                const msg = "Invalid email or password'" 
+                const msg = "Invalid email or password" 
                 await request(app)
                 .post("/api/users/signin")
                 .send(data)
