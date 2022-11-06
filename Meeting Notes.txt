@@ -4,6 +4,11 @@ After making clone(npm clone git@github.com:ahmed-deftoner/Amazon-MERN.git) of m
 3) npm start main folder  it runs backend of project
 4) then npm start in \frontend folder it runs frontend of project
 
+To run feature files/UI testing first add test data:-
+1) http://localhost:5000/api/users/seed    enter this to create sample admin
+2) http://localhost:5000/api/products/seed     click this to create sample products
+3) signup a user with email abd.tahir1122@gmail.com and password 1122
+
 
 To Run a single feature for UI testing :-
 1) open UI folder seprately in vs code
