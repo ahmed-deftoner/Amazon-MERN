@@ -1,0 +1,24 @@
+After making clone(npm clone git@github.com:ahmed-deftoner/Amazon-MERN.git) of main branch project :-
+1) First open terminal cd frontend  ,then  npm i    
+2) Then split terminal and npm i   without changing directory
+3) npm start main folder  it runs backend of project
+4) then npm start in \frontend folder it runs frontend of project
+
+
+To Run a single feature for UI testing :-
+1) open UI folder seprately in vs code
+2) npm i
+3) run following command in terminal 
+npx wdio run ./wdio.conf.js --spec ./features/"Insert Feature name here".feature
+
+TO get template of cucumber :-
+./node_modules/.bin/cucumber-js.cmd
+
+
+To add and commit changes to main branch :-
+git add --all
+git commit -m "message"
+git push -u origin main
+
+
+
