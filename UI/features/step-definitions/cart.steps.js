@@ -1,12 +1,19 @@
 const { Given, When, Then } = require('@wdio/cucumber-framework');
 
 
+//Checks that the cart is empty
 Given('I am signed in', async () => {
-    browser.url('http://localhost:3000/signin');
+    const signinlink = $("=Sign In");
     const button = $("//button[contains(text(), 'Sign In')]");
-    await $('#email').setValue("abd.tahir1122@gmail.com");
-    await $('#password').setValue("1122");
-    await button.click();
+
+    browser.url("http://localhost:3000");
+    if(await signinlink.isExisting() ) {
+        await browser.pause(1000);
+        await signinlink.click();
+        await $('#email').setValue("abd.tahir1122@gmail.com");
+        await $('#password').setValue("1122");
+        await button.click();
+    }
 
 });
 
