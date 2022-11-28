@@ -1,1 +1,20 @@
+Linter
+Static analysis consists of using tools that analyze your source code looking for errors, lack of adherence to rules or conventions, or other potential problems.
+Different linter tools for different languages
+our project has javascript and Node so
+we choose ESLint + Prettier for JS
 
+1)ESLint Install
+npm install eslint --save-dev
+2)Initializing
+
+npx eslint --init
+check syntax, find problems and enforce code style.
+JavaScript modules 
+
+
+3)Using ESLint to Check a File
+npx eslint path-to-your-file.js
+
+
+https://www.youtube.com/watch?v=wHd76UPvyRM
