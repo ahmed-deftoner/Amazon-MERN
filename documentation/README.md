@@ -1,6 +1,6 @@
-Assignment 3
+# Assignment 3
 
-Meeting 1
+## Meeting 1
 
 We will be using jest and react testing library to unit test react component.
 First task is to Setup jest and react-test library
