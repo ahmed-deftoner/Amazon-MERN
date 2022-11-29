@@ -1,0 +1,13 @@
+config:
+  target: "http://localhost:5000"
+  phases:
+    - duration: 500
+      arrivalRate: 100
+      name: "Sustained load"
+ 
+scenarios:
+  - name: "Get top sellers"
+    flow:
+      - get:
+          url: "/api/users/top-sellers"
+   

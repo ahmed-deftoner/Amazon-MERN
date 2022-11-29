@@ -1,0 +1,19 @@
+config:
+  target: "http://localhost:5000"
+  phases:
+    - duration: 60
+      arrivalRate: 20
+      name: "Warming up"
+ 
+scenarios:
+  - name: "Login workflow flow"
+    flow:
+      - post:
+          url: "/api/users/signin"
+          json:
+            email: "admin@example.com"
+            password: "1234"
+      - think: 1
+      - get:
+          url: "/api/products"
+      
