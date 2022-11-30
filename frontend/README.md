@@ -1,4 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# INITIAL SETUP DETAILS 
+Add an .env file with  this code "SKIP_PREFLIGHT_CHECK=true"
+This ignore tree dependency issue of jest version installed in main root folder which has diiferent version but the version pre installed with react is different 
 
 ## Available Scripts
 
