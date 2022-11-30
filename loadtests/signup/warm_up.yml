@@ -1,0 +1,18 @@
+config:
+  target: "http://localhost:5000"
+  phases:
+    - duration: 50
+      arrivalRate: 10
+      name: "Warming up"
+  processor: "./functions.cjs"
+ 
+scenarios:
+  - name: "Register users"
+    flow:
+      - function: generateRandomPayload
+      - post:
+          url: "/api/users/register"
+          json: "{{ payload }}"
+          
+
+   

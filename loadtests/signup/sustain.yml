@@ -1,0 +1,15 @@
+config:
+  target: "http://localhost:5000"
+  phases:
+    - duration: 500
+      arrivalRate: 100
+      name: "Sustained load"
+  processor: "./functions.cjs"
+ 
+scenarios:
+  - name: "Register users"
+    flow:
+      - function: generateRandomPayload
+      - post:
+          url: "/api/users/register"
+          json: "{{ payload }}"

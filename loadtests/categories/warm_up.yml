@@ -1,0 +1,12 @@
+config:
+  target: "http://localhost:5000"
+  phases:
+    - duration: 60
+      arrivalRate: 20
+      name: "Warming up"
+  
+scenarios:
+  - name: "Check Categories"
+    flow:
+      - get:
+          url: "/api/products/categories"
