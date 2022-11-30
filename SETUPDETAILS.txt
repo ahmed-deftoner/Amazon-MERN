@@ -1,8 +1,10 @@
 After making clone(git clone git@github.com:ahmed-deftoner/Amazon-MERN.git) of main branch project :-
-1) First open terminal cd frontend  ,then  npm i    
-2) Then split terminal and npm i   without changing directory
-3) npm start main folder  it runs backend of project
-4) then npm start in \frontend folder it runs frontend of project
+1) First open terminal cd frontend  ,then  add new .env file
+2) Add this code in .env file = SKIP_PREFLIGHT_CHECK=true
+3) now npm i    
+4) Then split terminal and npm i   without changing directory
+5) npm start main folder  it runs backend of project
+6) then npm start in \frontend folder it runs frontend of project
 
 To run feature files/UI testing first add test data:-
 1) http://localhost:5000/api/users/seed    enter this to create sample admin
@@ -26,4 +28,11 @@ git commit -m "message"
 git push -u origin main
 
 
+To run all unit tests :-
+1) cd frontend
+2) npm run test
+3) press option (a) to run all tests
 
+To run performace tests :- 
+1)in main folder run 
+2)artillery run loadtests/<path>/<test>.yml --output log.json log.html
