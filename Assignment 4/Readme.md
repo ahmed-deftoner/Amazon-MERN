@@ -8,6 +8,13 @@ Conditions:
 
 These suites contains conditions which can also be edited , changed or new added. But this preavialable suite contains codition which checks that test data and train data ratio is greater than 0.01.
 
+## Installation
+Deepchecks package can be installed on your local machine via pip or in your Jupyter notebook section using the following command:
+
+```Python
+import sys
+!{sys.executable} -m pip install "deepchecks[vision]" --quiet --upgrade # --user
+```
 
 ## Types
 So there are primarily three types of checks taking place in Deepcheck in the process. They are as follows :
