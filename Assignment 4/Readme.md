@@ -295,3 +295,63 @@ class TomatoData(DetectionData):
                 torch.concat([test_boxes, test_scores.reshape((-1, 1)), test_labels.reshape((-1, 1))], dim=1))
         return processed_pred
 ```
+
+After defining the task class, we can validate it by running the following code:
+
+```Python
+# We have a single label here, which is the tomato class
+# The label_map is a dictionary that maps the class id to the class name, for display purposes.
+LABEL_MAP = {
+    1: 'Tomato'
+}
+training_data = TomatoData(data_loader=train_loader, label_map=LABEL_MAP)
+test_data = TomatoData(data_loader=test_loader, label_map=LABEL_MAP)
+
+training_data.validate_format(model, device=device)
+test_data.validate_format(model, device=device)
+```
+
+The output would be something like this:
+
+```
+Deepchecks will try to validate the extractors given...
+torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at  ../aten/src/ATen/native/TensorShape.cpp:2157.)
+Structure validation
+--------------------
+Label formatter: Pass!
+Prediction formatter: Pass!
+Image formatter: Pass!
+
+Content validation
+------------------
+For validating the content within the structure you have to manually observe the classes, image, label and prediction.
+Examples of classes observed in the batch's labels: [[1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1], [1], [1]]
+Visual images & label & prediction: should open in a new window
+*******************************************************************************
+This machine does not support GUI
+The formatted image was saved in:
+/home/runner/work/deepchecks/deepchecks/docs/source/user-guide/vision/quickstarts/deepchecks_formatted_image (4).jpg
+Visual examples of an image with prediction and label data. Label is red, prediction is blue, and deepchecks loves you.
+validate_extractors can be set to skip the image saving or change the save path
+*******************************************************************************
+Deepchecks will try to validate the extractors given...
+Structure validation
+--------------------
+Label formatter: Pass!
+Prediction formatter: Pass!
+Image formatter: Pass!
+
+Content validation
+------------------
+For validating the content within the structure you have to manually observe the classes, image, label and prediction.
+Examples of classes observed in the batch's labels: [[1, 1, 1, 1], [1], [1, 1, 1, 1, 1, 1, 1], [1], [1]]
+Visual images & label & prediction: should open in a new window
+*******************************************************************************
+This machine does not support GUI
+The formatted image was saved in:
+/home/runner/work/deepchecks/deepchecks/docs/source/user-guide/vision/quickstarts/deepchecks_formatted_image (5).jpg
+Visual examples of an image with prediction and label data. Label is red, prediction is blue, and deepchecks loves you.
+validate_extractors can be set to skip the image saving or change the save path
+*******************************************************************************
+```
+
