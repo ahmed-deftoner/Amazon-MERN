@@ -355,3 +355,18 @@ validate_extractors can be set to skip the image saving or change the save path
 *******************************************************************************
 ```
 
+Now that we have defined the task class, we can validate the model with the full suite of deepchecks. This can be done with this simple few lines of code:
+
+```Python
+from deepchecks.vision.suites import full_suite
+
+suite = full_suite()
+result = suite.run(training_data, test_data, model, device=device)
+```
+
+The results can be saved as a html file with the following code:
+
+```Python
+result.save_as_html('output.html')
+```
+
