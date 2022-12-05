@@ -9,7 +9,7 @@ Conditions:
 These suites contains conditions which can also be edited , changed or new added. But this preavialable suite contains codition which checks that test data and train data ratio is greater than 0.01.
 
 
-##Types
+## Types
 So there are primarily three types of checks taking place in Deepcheck in the process. They are as follows :
 1) Data Integrity Check 
 2) Check for distribution of data for train and test
