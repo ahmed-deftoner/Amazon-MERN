@@ -25,3 +25,8 @@ So there are primarily three types of checks taking place in Deepcheck in the pr
 Dataset_integrity checks the integrity present in the dataset such as missing fields and etc.
 Train Test validation set checks the correctness of the split of the data for training and testing phase.
 Lastly model evaluation cross-checks the model performance and genericness and also the signs of overfitting if present.
+
+## Object Detection
+In computer vision, object detection is one the most fundamental applications and arguably the most important one. Hence a good testing suite should be able to quantify the results of object detection.
+
+In this example, we will try to detect tomatoes in images using a pre-trained model and then test its accuracy using deepchecks.
