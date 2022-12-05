@@ -172,3 +172,20 @@ result = [draw_bounding_boxes(prepare(inp[i]), torch.stack(targets[i]['boxes']),
           for i in range(len(targets))]
 show(result)
 ```
+
+Next, we will download a pre-trained SSDlite model and a MobileNetV3 Large backbone from the official PyTorch repository.
+
+After downloading the model, we will fine-tune it for our particular classes. We will do it by replacing the pre-trained head with a new one that matches our needs.
+
+```Python
+device = torch.device("cuda") if torch.cuda.is_available() else torch.device("cpu")
+
+model = torchvision.models.detection.ssdlite320_mobilenet_v3_large(pretrained=True)
+
+in_channels = det_utils.retrieve_out_channels(model.backbone, (320, 320))
+num_anchors = model.anchor_generator.num_anchors_per_location()
+norm_layer = partial(nn.BatchNorm2d, eps=0.001, momentum=0.03)
+
+model.head.classification_head = SSDLiteClassificationHead(in_channels, num_anchors, 2, norm_layer)
+model.to(device)
+```
