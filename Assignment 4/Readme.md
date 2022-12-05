@@ -30,3 +30,27 @@ Lastly model evaluation cross-checks the model performance and genericness and a
 In computer vision, object detection is one the most fundamental applications and arguably the most important one. Hence a good testing suite should be able to quantify the results of object detection.
 
 In this example, we will try to detect tomatoes in images using a pre-trained model and then test its accuracy using deepchecks.
+
+First, lets import the desired libraries:
+
+```Python
+import os
+import urllib.request
+import xml.etree.ElementTree as ET
+import zipfile
+from functools import partial
+
+import albumentations as A
+import matplotlib.pyplot as plt
+import numpy as np
+import torch
+import torchvision
+from albumentations.pytorch import ToTensorV2
+from PIL import Image
+from torch import nn
+from torch.utils.data import DataLoader, Dataset
+from torchvision.models.detection import _utils as det_utils
+from torchvision.models.detection.ssdlite import SSDLiteClassificationHead
+
+from deepchecks.vision.detection_data import DetectionData
+```
