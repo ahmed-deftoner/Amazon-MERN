@@ -189,3 +189,10 @@ norm_layer = partial(nn.BatchNorm2d, eps=0.001, momentum=0.03)
 model.head.classification_head = SSDLiteClassificationHead(in_channels, num_anchors, 2, norm_layer)
 model.to(device)
 ```
+
+For this tutorial we will not include the training code itself, but will download and load pre-trained weights.
+
+```Python
+model.load_state_dict(torch.load('tomato-detection/ssd_model.pth'))
+_ = model.eval()
+```
