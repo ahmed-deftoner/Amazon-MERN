@@ -135,3 +135,40 @@ train_loader = DataLoader(train_set, batch_size=64, collate_fn=(lambda batch: tu
 test_loader = DataLoader(test_set, batch_size=64, collate_fn=(lambda batch: tuple(zip(*batch))))
 ```
 
+Lets visualize a few images:
+
+```Python
+def prepare(inp):
+    """Imshow for Tensor."""
+    inp = inp.numpy().transpose((1, 2, 0))
+    mean = np.array([0.485, 0.456, 0.406])
+    std = np.array([0.229, 0.224, 0.225])
+    inp = std * inp + mean
+    inp = np.clip(inp, 0, 1) * 255
+    inp = inp.transpose((2,0,1))
+    return torch.tensor(inp, dtype=torch.uint8)
+
+import torchvision.transforms.functional as F
+
+
+def show(imgs):
+    if not isinstance(imgs, list):
+        imgs = [imgs]
+    fig, axs = plt.subplots(ncols=len(imgs), squeeze=False, figsize=(20,20))
+    for i, img in enumerate(imgs):
+        img = img.detach()
+        img = F.to_pil_image(img)
+        axs[0, i].imshow(np.asarray(img))
+        axs[0, i].set(xticklabels=[], yticklabels=[], xticks=[], yticks=[])
+
+from torchvision.utils import draw_bounding_boxes
+
+data = next(iter(train_loader))
+inp, targets = data[0][:4], data[1][:4]
+
+
+result = [draw_bounding_boxes(prepare(inp[i]), torch.stack(targets[i]['boxes']),
+                              colors=['yellow'] * torch.stack(targets[i]['boxes']).shape[0], width=5)
+          for i in range(len(targets))]
+show(result)
+```
