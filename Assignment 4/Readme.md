@@ -29,6 +29,8 @@ Lastly model evaluation cross-checks the model performance and genericness and a
 ## Object Detection
 In computer vision, object detection is one the most fundamental applications and arguably the most important one. Hence a good testing suite should be able to quantify the results of object detection.
 
+### Define the data and model
+
 In this example, we will try to detect tomatoes in images using a pre-trained model and then test its accuracy using deepchecks.
 
 First, lets import the desired libraries:
@@ -195,4 +197,101 @@ For this tutorial we will not include the training code itself, but will downloa
 ```Python
 model.load_state_dict(torch.load('tomato-detection/ssd_model.pth'))
 _ = model.eval()
+```
+
+Next we will use deepchecks to validate the model.
+
+### Validating the model
+
+First we’ll make sure we are familiar with the data loader and the model outputs.
+
+```Python
+batch = next(iter(train_loader))
+
+print("Batch type is: ", type(batch))
+print("First element is: ", type(batch[0]), "with len of ", len(batch[0]))
+print("Example output of an image shape from the dataloader ", batch[0][0].shape)
+print("Image values", batch[0][0])
+print("-"*80)
+
+print("Second element is: ", type(batch[1]), "with len of ", len(batch[1]))
+print("Example output of a label from the dataloader ", batch[1][0])
+```
+
+The checks in the package validate the model & data by calculating various quantities over the data, labels and predictions. In order to do that, those must be in a pre-defined format, according to the task type. The first step is to implement a class that enables deepchecks to interact with your model and data and transform them to this pre-defined format, which is set for each task type. In this tutorial, we will implement the object detection task type by implementing a class that inherits from the **deepchecks.vision.detection_data.DetectionData** class.
+
+The DetectionData class contains additional data and general methods intended for easy access to relevant metadata for object detection ML models validation. To learn more about the expected format please visit the API reference for the deepchecks.**vision.detection_data.DetectionData** class.
+
+```Python
+from deepchecks.vision.detection_data import DetectionData
+
+
+class TomatoData(DetectionData):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def batch_to_images(self, batch):
+        """
+        Convert a batch of data to images in the expected format. The expected format is an iterable of cv2 images,
+        where each image is a numpy array of shape (height, width, channels). The numbers in the array should be in the
+        range [0, 255] in a uint8 format.
+        """
+        inp = torch.stack(list(batch[0])).cpu().detach().numpy().transpose((0, 2, 3, 1))
+        mean = [0.485, 0.456, 0.406]
+        std = [0.229, 0.224, 0.225]
+        # Un-normalize the images
+        inp = std * inp + mean
+        inp = np.clip(inp, 0, 1)
+        return inp * 255
+
+    def batch_to_labels(self, batch):
+        """
+        Convert a batch of data to labels in the expected format. The expected format is a list of tensors of length N,
+        where N is the number of samples. Each tensor element is in a shape of [B, 5], where B is the number of bboxes
+        in the image, and each bounding box is in the structure of [class_id, x, y, w, h].
+        """
+        tensor_annotations = batch[1]
+        label = []
+        for annotation in tensor_annotations:
+            if len(annotation["boxes"]):
+                bbox = torch.stack(annotation["boxes"])
+                # Convert the Pascal VOC xyxy format to xywh format
+                bbox[:, 2:] = bbox[:, 2:] - bbox[:, :2]
+                # The label shape is [class_id, x, y, w, h]
+                label.append(
+                    torch.concat([torch.stack(annotation["labels"]).reshape((-1, 1)), bbox], dim=1)
+                )
+            else:
+                # If it's an empty image, we need to add an empty label
+                label.append(torch.tensor([]))
+        return label
+
+    def infer_on_batch(self, batch, model, device):
+        """
+        Returns the predictions for a batch of data. The expected format is a list of tensors of shape length N, where N
+        is the number of samples. Each tensor element is in a shape of [B, 6], where B is the number of bboxes in the
+        predictions, and each bounding box is in the structure of [x, y, w, h, score, class_id].
+        """
+        nm_thrs = 0.2
+        score_thrs = 0.7
+        imgs = list(img.to(device) for img in batch[0])
+        # Getting the predictions of the model on the batch
+        with torch.no_grad():
+            preds = model(imgs)
+        processed_pred = []
+        for pred in preds:
+            # Performoing non-maximum suppression on the detections
+            keep_boxes = torchvision.ops.nms(pred['boxes'], pred['scores'], nm_thrs)
+            score_filter = pred['scores'][keep_boxes] > score_thrs
+
+            # get the filtered result
+            test_boxes = pred['boxes'][keep_boxes][score_filter].reshape((-1, 4))
+            test_boxes[:, 2:] = test_boxes[:, 2:] - test_boxes[:, :2]  # xyxy to xywh
+            test_labels = pred['labels'][keep_boxes][score_filter]
+            test_scores = pred['scores'][keep_boxes][score_filter]
+
+            processed_pred.append(
+                torch.concat([test_boxes, test_scores.reshape((-1, 1)), test_labels.reshape((-1, 1))], dim=1))
+        return processed_pred
 ```
