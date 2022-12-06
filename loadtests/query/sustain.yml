@@ -1,0 +1,16 @@
+config:
+  target: "http://localhost:5000"
+  phases:
+    - duration: 500
+      arrivalRate: 100
+      name: "Sustained load"
+ 
+scenarios:
+  - name: "query price range"
+    flow:
+      - get:
+          url: "/api/products/"
+          qs:
+            min: 68
+            max: 90
+   
