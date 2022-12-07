@@ -7,7 +7,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint src/App.js",
+    "lint-fix": "eslint src/App.js --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -42,5 +44,10 @@
     "redux-mock-store": "^1.5.4",
     "redux-thunk": "^2.4.1",
     "socket.io-client": "^4.4.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0",
+    "eslint-config-google": "^0.14.0",
+    "eslint-plugin-react": "^7.31.11"
   }
 }
