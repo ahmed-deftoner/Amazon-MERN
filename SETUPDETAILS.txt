@@ -1,6 +1,7 @@
 After making clone(git clone git@github.com:ahmed-deftoner/Amazon-MERN.git) of main branch project :-
 1) First open terminal cd frontend  ,then  add new .env file
-2) Add this code in .env file = SKIP_PREFLIGHT_CHECK=true
+2) Add this code in .env file =         SKIP_PREFLIGHT_CHECK=true
+3) Also Add this code to .env file to convert eslint error message as warnings only     ESLINT_NO_DEV_ERRORS=true
 3) now npm i    
 4) Then split terminal and npm i   without changing directory
 5) npm start main folder  it runs backend of project
@@ -36,3 +37,12 @@ To run all unit tests :-
 To run performace tests :- 
 1)in main folder run 
 2)artillery run loadtests/<path>/<test>.yml --output log.json log.html
+
+
+To check eslint problems :-
+1)  cd frontend
+2) type npm run lint
+3) this runs for a specific path only, can be changed in frontend/package.json 
+4) to run for all files change "lint": "eslint src/**/*.js",
+5) To fix a file run npm run lint-fix
+6) To fix all files change     "lint-fix": "eslint src/**/*.js --fix"
