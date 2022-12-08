@@ -63,14 +63,14 @@ export default function ChatBox(props) {
     setIsOpen(false);
   };
   return (
-    <div className="chatbox">
+    <div className="chatbox" data-testid = "msg-test">
       {!isOpen ? (
-        <button type="button" onClick={supportHandler}>
+        <button type="button" onClick={supportHandler} data-testid = "boxbtn-test">
           <i className="fa fa-support" />
         </button>
       ) : (
         <div className="card card-body">
-          <div className="row">
+          <div className="row" data-testid = "support-test">
             <strong>Support </strong>
             <button type="button" onClick={closeHandler}>
               <i className="fa fa-close" />
@@ -79,7 +79,7 @@ export default function ChatBox(props) {
           <ul ref={uiMessagesRef}>
             {messages.map((msg, index) => (
               <li key={index}>
-                <strong>{`${msg.name}: `}</strong> {msg.body}
+                <strong >{`${msg.name}: `}</strong> {msg.body}
               </li>
             ))}
           </ul>
